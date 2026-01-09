@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Log in to your account</p>
+
+    <% if (typeof error !== "undefined") { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+
+    <form method="post">
+      <input name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button class="primary-btn">Log In</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <div class="social-login">
+      <button class="google">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg">
+        Continue with Google
+      </button>
+      <button class="facebook">
+        <img src="https://www.svgrepo.com/show/475647/facebook-color.svg">
+        Continue with Facebook
+      </button>
+    </div>
+  </div>
+
+  <div class="auth-footer">
+    Don’t have an account?
+    <a href="/signup">Sign up</a>
+  </div>
+</div>
+
+</body>
+</html>

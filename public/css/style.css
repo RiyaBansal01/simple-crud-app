@@ -1,0 +1,302 @@
+/* ==================================================
+   GLOBAL RESET & BASE
+================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+/* ==================================================
+   AUTH (LOGIN / SIGNUP) LAYOUT
+================================================== */
+.auth-container {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #f9fafb, #eef2ff);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.auth-card {
+  width: 360px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Heading */
+.auth-card h2 {
+  margin: 0;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Primary Button */
+.primary-btn {
+  width: 100%;
+  padding: 11px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 18px 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* Social Login */
+.social-login button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.social-login img {
+  width: 18px;
+  height: 18px;
+}
+
+.social-login button:hover {
+  background-color: #f9fafb;
+}
+
+/* Footer under card */
+.auth-footer {
+  width: 360px;
+  margin-top: 14px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Error message */
+.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+/* ==================================================
+   DASHBOARD STYLES
+================================================== */
+.dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Dashboard Card */
+.card {
+  width: 360px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.card-wide {
+  width: 520px;
+}
+
+/* Headings */
+.card h2 {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Dashboard Inputs */
+.card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+/* Buttons (dashboard) */
+.card button {
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Add / Update */
+.card button {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.card button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Logout */
+.logout-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1f2937;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.logout-btn:hover {
+  background-color: #111827;
+}
+
+/* ==================================================
+   ITEM LIST
+================================================== */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+li {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Inline forms */
+.row-form {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+
+.row-form input {
+  margin-bottom: 0;
+}
+
+/* Delete link */
+button.link {
+  background: none;
+  border: none;
+  color: #991b1b;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+button.link:hover {
+  text-decoration: underline;
+}
+/* ===============================
+   DASHBOARD REFINEMENT
+================================ */
+.add-form {
+  margin-bottom: 18px;
+}
+
+.item-list {
+  margin-top: 12px;
+}
+
+.item-row {
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #f9fafb;
+}
+
+.item-row + .item-row {
+  margin-top: 10px;
+}
+
+.item-row:hover {
+  background-color: #f3f4f6;
+}
+
+.item-row input {
+  background-color: #ffffff;
+}
+
+.item-row button {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.item-row button:hover {
+  background-color: #1d4ed8;
+}

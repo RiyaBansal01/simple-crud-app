@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="card card-wide">
+
+    <h2>Dashboard</h2>
+
+    <!-- Add Item -->
+    <form method="post" action="/add" class="row-form add-form">
+      <input name="name" placeholder="Add new item" required>
+      <button>Add</button>
+    </form>
+
+    <!-- Items -->
+    <ul class="item-list">
+      <% items.forEach(item => { %>
+        <li class="item-row">
+
+          <!-- Edit -->
+          <form method="post" action="/edit/<%= item.id %>" class="row-form">
+            <input name="name" value="<%= item.name %>" required>
+            <button>Update</button>
+          </form>
+
+          <!-- Delete -->
+          <form method="post" action="/delete/<%= item.id %>">
+            <button class="link">Delete</button>
+          </form>
+
+        </li>
+      <% }) %>
+    </ul>
+
+    <a href="/logout" class="logout-btn">Logout</a>
+
+  </div>
+</div>
+
+</body>
+</html>
