@@ -1,46 +1,120 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
   <title>Dashboard</title>
+
   <link rel="stylesheet" href="/css/style.css">
+
 </head>
+
 <body>
 
-<div class="dashboard-container">
-  <div class="card card-wide">
+  <%- include('partials/sidebar') %>
 
-    <h2>Dashboard</h2>
+  <div class="main">
 
-    <!-- Add Item -->
-    <form method="post" action="/add" class="row-form add-form">
-      <input name="name" placeholder="Add new item" required>
-      <button>Add</button>
-    </form>
+    <%- include('partials/navbar', { user: user }) %>
 
-    <!-- Items -->
-    <ul class="item-list">
-      <% items.forEach(item => { %>
-        <li class="item-row">
+    <div class="cards">
 
-          <!-- Edit -->
-          <form method="post" action="/edit/<%= item.id %>" class="row-form">
-            <input name="name" value="<%= item.name %>" required>
-            <button>Update</button>
-          </form>
+      <div class="stat-card blue">
 
-          <!-- Delete -->
-          <form method="post" action="/delete/<%= item.id %>">
-            <button class="link">Delete</button>
-          </form>
+        <h3>Total Projects</h3>
 
-        </li>
-      <% }) %>
-    </ul>
+        <h1><%= totalProjects %></h1>
 
-    <a href="/logout" class="logout-btn">Logout</a>
+      </div>
+
+      <div class="stat-card purple">
+
+        <h3>Total Tasks</h3>
+
+        <h1><%= totalTasks %></h1>
+
+      </div>
+
+      <div class="stat-card green">
+
+        <h3>Completed</h3>
+
+        <h1><%= completedTasks %></h1>
+
+      </div>
+
+      <div class="stat-card red">
+
+        <h3>Overdue</h3>
+
+        <h1><%= overdueTasks %></h1>
+
+      </div>
+
+    </div>
+
+    <div class="dashboard-sections">
+
+      <div class="dashboard-panel">
+
+        <div class="panel-header">
+
+          <h2>Recent Projects</h2>
+
+        </div>
+
+        <div class="project-grid">
+
+          <% recentProjects.forEach(project => { %>
+
+            <div class="project-card">
+
+              <h3><%= project.title %></h3>
+
+              <p><%= project.description %></p>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+      <div class="dashboard-panel">
+
+        <div class="panel-header">
+
+          <h2>Recent Tasks</h2>
+
+        </div>
+
+        <% recentTasks.forEach(task => { %>
+
+          <div class="task-item">
+
+            <div>
+
+              <h4><%= task.title %></h4>
+
+              <p><%= task.priority %></p>
+
+            </div>
+
+            <span class="status-badge">
+              <%= task.status %>
+            </span>
+
+          </div>
+
+        <% }) %>
+
+      </div>
+
+    </div>
 
   </div>
-</div>
 
 </body>
+
 </html>

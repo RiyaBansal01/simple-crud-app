@@ -2,6 +2,10 @@ const express = require("express");
 const session = require("express-session");
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const roleGuard = require('./middleware/roleGuard')
+const projectRoutes = require('./routes/projectRoutes')
+const taskRoutes = require('./routes/taskRoutes')
+
 
 const app = express();
 
@@ -42,6 +46,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use('/', projectRoutes)
+app.use('/', taskRoutes)
 
 // ================= MIDDLEWARE =================
 function requireLogin(req, res, next) {
@@ -64,11 +70,11 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role} = req.body;
 
   db.get(
-    "SELECT id FROM users WHERE username = ? AND password = ?",
-    [username, password],
+    "SELECT * FROM users WHERE username = ? AND password = ? AND role = ?",
+    [username, password, role],
     (err, row) => {
       if (err || !row) {
         return res.render("login", {
@@ -76,7 +82,7 @@ app.post("/login", (req, res) => {
         });
       }
 
-      req.session.user = row.id;
+      req.session.user = row;
       res.redirect("/dashboard");
     }
   );
@@ -88,11 +94,11 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   db.run(
-    "INSERT INTO users (username, password) VALUES (?, ?)",
-    [username, password],
+    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+    [username, password, role],
     function (err) {
       if (err) {
         return res.render("signup", {
@@ -111,51 +117,133 @@ app.get("/logout", (req, res) => {
 
 // ---------------- DASHBOARD ----------------
 app.get("/dashboard", requireLogin, (req, res) => {
-  db.all(
-    "SELECT * FROM items WHERE user_id = ?",
-    [req.session.user],
-    (err, items) => {
-      res.render("dashboard", { items: items || [] });
+
+  db.get(
+    "SELECT COUNT(*) as totalProjects FROM projects",
+    [],
+    (err, projectsResult) => {
+
+      db.get(
+        "SELECT COUNT(*) as totalTasks FROM tasks",
+        [],
+        (err, tasksResult) => {
+
+          db.get(
+            "SELECT COUNT(*) as completedTasks FROM tasks WHERE status = 'COMPLETED'",
+            [],
+            (err, completedResult) => {
+
+              db.get(
+                "SELECT COUNT(*) as overdueTasks FROM tasks WHERE dueDate < date('now')",
+                [],
+                (err, overdueResult) => {
+
+                  db.all(
+                    "SELECT * FROM projects ORDER BY id DESC LIMIT 3",
+                    [],
+                    (err, recentProjects) => {
+
+                      db.all(
+                        "SELECT * FROM tasks ORDER BY id DESC LIMIT 5",
+                        [],
+                        (err, recentTasks) => {
+
+                          res.render("dashboard", {
+
+                            user: req.session.user,
+
+                            totalProjects:
+                              projectsResult.totalProjects || 0,
+
+                            totalTasks:
+                              tasksResult.totalTasks || 0,
+
+                            completedTasks:
+                              completedResult.completedTasks || 0,
+
+                            overdueTasks:
+                              overdueResult.overdueTasks || 0,
+
+                            recentProjects:
+                              recentProjects || [],
+
+                            recentTasks:
+                              recentTasks || []
+                          });
+                        }
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          );
+        }
+      );
     }
   );
 });
-
 // ---------------- CRUD ----------------
 
 // Add item
 app.post("/add", requireLogin, (req, res) => {
+
   db.run(
     "INSERT INTO items (user_id, name) VALUES (?, ?)",
     [req.session.user, req.body.name],
     (err) => {
-      if (err) console.error(err);
+
+      if (err) {
+        console.error(err);
+      }
+
       res.redirect("/dashboard");
     }
   );
+
 });
 
 // Edit item
 app.post("/edit/:id", requireLogin, (req, res) => {
+
   db.run(
     "UPDATE items SET name = ? WHERE id = ? AND user_id = ?",
-    [req.body.name, req.params.id, req.session.user],
+    [
+      req.body.name,
+      req.params.id,
+      req.session.user
+    ],
     (err) => {
-      if (err) console.error(err);
+
+      if (err) {
+        console.error(err);
+      }
+
       res.redirect("/dashboard");
     }
   );
+
 });
 
 // Delete item
 app.post("/delete/:id", requireLogin, (req, res) => {
+
   db.run(
     "DELETE FROM items WHERE id = ? AND user_id = ?",
-    [req.params.id, req.session.user],
+    [
+      req.params.id,
+      req.session.user
+    ],
     (err) => {
-      if (err) console.error(err);
+
+      if (err) {
+        console.error(err);
+      }
+
       res.redirect("/dashboard");
     }
   );
+
 });
 
 // ================= SERVER START =================

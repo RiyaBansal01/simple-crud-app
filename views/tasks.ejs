@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Tasks</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+  <%- include('partials/sidebar') %>
+
+  <div class="main">
+
+    <%- include('partials/navbar', { user: user }) %>
+
+    <div class="page-header">
+
+      <h1>Task Management</h1>
+
+    </div>
+
+    <form action="/tasks/create" method="POST">
+
+      <input type="text" name="title" placeholder="Task Title" required>
+
+      <textarea
+        name="description"
+        placeholder="Task Description"
+      ></textarea>
+
+      <div class="form-grid">
+
+        <select name="status">
+
+          <option value="TODO">TODO</option>
+
+          <option value="IN_PROGRESS">
+            IN PROGRESS
+          </option>
+
+          <option value="COMPLETED">
+            COMPLETED
+          </option>
+
+        </select>
+
+        <select name="priority">
+
+          <option value="LOW">LOW</option>
+
+          <option value="MEDIUM">MEDIUM</option>
+
+          <option value="HIGH">HIGH</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-grid">
+
+        <input type="date" name="dueDate">
+
+        <select name="projectId">
+
+          <% projects.forEach(project => { %>
+
+            <option value="<%= project.id %>">
+              <%= project.title %>
+            </option>
+
+          <% }) %>
+
+        </select>
+
+      </div>
+
+      <select name="assignedTo">
+
+        <% users.forEach(member => { %>
+
+          <option value="<%= member.id %>">
+            <%= member.username %>
+          </option>
+
+        <% }) %>
+
+      </select>
+
+      <button type="submit">
+        Create Task
+      </button>
+
+    </form>
+
+    <div class="task-grid">
+
+      <% tasks.forEach(task => { %>
+
+        <div class="task-card">
+
+          <div class="task-top">
+
+            <h3><%= task.title %></h3>
+
+            <span class="priority">
+              <%= task.priority %>
+            </span>
+
+          </div>
+
+          <p><%= task.description %></p>
+
+          <div class="task-bottom">
+
+            <span><%= task.projectTitle %></span>
+
+            <span><%= task.username %></span>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
